@@ -1,5 +1,5 @@
 FROM node:latest
-EXPOSE 4000
+EXPOSE 3000
 WORKDIR /app
 COPY files/* /app/
 
