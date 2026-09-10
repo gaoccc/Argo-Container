@@ -89,34 +89,7 @@ app.get("/test", function (req, res) {
   });
 });
 
-// keepalive begin
-//web保活
-function keep_web_alive() {
-  // 请求主页，保持唤醒
-  exec("curl -m8 127.0.0.1:" + port, function (err, stdout, stderr) {
-    if (err) {
-      console.log("保活-请求主页-命令行执行错误：" + err);
-    }
-    else {
-      console.log("保活-请求主页-命令行执行成功，响应报文:" + stdout);
-    }
-  });
-}
-setInterval(keep_web_alive, 10 * 1000);
 
-app.use(
-  "/",
-  createProxyMiddleware({
-    changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
-    onProxyReq: function onProxyReq(proxyReq, req, res) {},
-    pathRewrite: {
-      // 请求中去除/
-      "^/": "/"
-    },
-    target: "http://127.0.0.1:8080/", // 需要跨域处理的请求地址
-    ws: true // 是否代理websockets
-  })
-);
 
 //启动核心脚本运行web,哪吒和argo
 exec("bash entrypoint.sh", function (err, stdout, stderr) {
